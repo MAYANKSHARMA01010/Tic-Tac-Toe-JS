@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2&family=Roboto&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: rgb(242, 234, 250);
+}
+
+header{
+    background-color: rgb(37, 9, 37);
+    color: white;
+    height: 65px;
+    font-size: 27px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    font-family: 'Roboto', sans-serif;
+}
+
+header ul{
+    list-style-type: none;
+}
+
+.gameContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.gameBoard {
+    display: grid;
+    grid-template-rows: repeat(3, 10vw);
+    grid-template-columns: repeat(3, 10vw);
+    font-family: 'Roboto', sans-serif;
+    position: relative;
+}
+
+.cell {
+    border: 2px solid black;
+    font-size: 8vw;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cell:hover {
+    background-color: rgb(26, 151, 86);
+}
+
+.statusText {
+    font-size: 22px;
+}
+
+.gameInfo {
+    padding: 0 34px;
+    font-family: 'Baloo Bhaina 2', cursive;
+}
+
+.gameInfo h1 {
+    font-size: 2.5rem;
+}
+
+.imageWrapper img {
+    width: 0;
+    transition: width 1s ease-in-out;
+}
+
+.cell-top-left {
+    border-left: 0;
+    border-top: 0;
+}
+
+.cell-top-center {
+    border-top: 0;
+}
+
+.cell-top-right {
+    border-top: 0;
+    border-right: 0;
+}
+
+.cell-middle-left {
+    border-left: 0;
+}
+
+.cell-middle-right {
+    border-right: 0;
+}
+
+.cell-bottom-left {
+    border-left: 0;
+    border-bottom: 0;
+}
+
+.cell-bottom-center {
+    border-bottom: 0;
+}
+
+.cell-bottom-right {
+    border-right: 0;
+    border-bottom: 0;
+}
+
+#restartGame {
+    margin: 0 23px;
+    padding: 1px 18px;
+    background: #f3e7f9;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Baloo Bhaina 2';
+    font-size: 15px;
+    font-weight: bolder;
+}
+
+.gameLine {
+    background-color: black;
+    height: 3px;
+    width: 0;
+    position: absolute;
+    background-color: #911d91;
+    transition: width 1s ease-in-out;
+}
+
+@media screen and (max-width: 950px)
+{
+    .gameContainer {
+        flex-wrap: wrap;
+    }
+    .gameInfo {
+        margin-top: 34px;
+    }
+    .gameInfo h1 {
+        font-size: 1.5rem;
+    }
+    .gameBoard {
+        grid-template-rows: repeat(3, 20vw);
+        grid-template-columns: repeat(3, 20vw);
+    }
+}
