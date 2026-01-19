@@ -7,33 +7,45 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <span>Ultimate Tic Tac Toe</span>
-        <button id="themeToggle">🌙</button>
-    </header>
-
-    <div class="gameContainer">
-        <div class="gameBoard">
-            <div class="gameLine"></div>
-            <div class="cell"><span class="cellText"></span></div>
-            <div class="cell"><span class="cellText"></span></div>
-            <div class="cell"><span class="cellText"></span></div>
-            <div class="cell"><span class="cellText"></span></div>
-            <div class="cell"><span class="cellText"></span></div>
-            <div class="cell"><span class="cellText"></span></div>
-            <div class="cell"><span class="cellText"></span></div>
-            <div class="cell"><span class="cellText"></span></div>
-            <div class="cell"><span class="cellText"></span></div>
-        </div>
-        <div class="gameInfo">
-            <h1>Enjoy Tic Tac Toe</h1>
-            <div>
-                <span class="statusText">Next Move: X</span>
-                <button id="restartGame">Restart</button>
-            </div> 
-            <div class="imageWrapper">
-                <img id="winnerImage" src="Assests/Winner.gif" alt="Winner Celebration">
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <span>Tic Tac Toe</span>
             </div>
+            <button id="themeToggle" aria-label="Toggle Theme">
+                <span class="icon">🌙</span>
+            </button>
+        </header>
+
+        <main>
+            <div class="game-status">
+                <span class="status-badge">Turn: <strong id="turnIndicator">X</strong></span>
+            </div>
+
+            <div class="game-board" id="board">
+                <div class="cell" data-index="0"></div>
+                <div class="cell" data-index="1"></div>
+                <div class="cell" data-index="2"></div>
+                <div class="cell" data-index="3"></div>
+                <div class="cell" data-index="4"></div>
+                <div class="cell" data-index="5"></div>
+                <div class="cell" data-index="6"></div>
+                <div class="cell" data-index="7"></div>
+                <div class="cell" data-index="8"></div>
+            </div>
+
+            <div class="controls">
+                <button id="restartGame" class="btn-primary">Restart Game</button>
+            </div>
+        </main>
+    </div>
+
+    <div id="resultModal" class="modal hidden">
+        <div class="modal-content">
+            <h2 id="winnerText">Winner!</h2>
+            <img id="winnerImage" src="Assests/Winner.gif" alt="Winner Celebration">
+            <button id="modalRestart" class="btn-primary">Play Again</button>
+            <button id="closeModal" class="btn-text">Close</button>
         </div>
     </div>
     

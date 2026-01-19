@@ -4,15 +4,38 @@ let audioTurn = new Audio("ting.mp3");
 let turn = "X";
 let isGameOver = false;
 
-const changeTurn = () => turn === "X" ? "O" : "X";
-
 const cells = document.querySelectorAll(".cell");
-const statusText = document.querySelector(".statusText");
+const turnIndicator = document.getElementById("turnIndicator");
 const restartButton = document.getElementById("restartGame");
-const winnerImage = document.getElementById("winnerImage");
 const themeToggle = document.getElementById("themeToggle");
 
-// Winning combinations
+const resultModal = document.getElementById("resultModal");
+const winnerText = document.getElementById("winnerText");
+const winnerImage = document.getElementById("winnerImage");
+const modalRestart = document.getElementById("modalRestart");
+const closeModal = document.getElementById("closeModal");
+
+let boardState = ["", "", "", "", "", "", "", "", ""];
+
+const savedTheme = localStorage.getItem('theme') || 'light';
+document.body.setAttribute('data-theme', savedTheme);
+updateThemeIcon(savedTheme);
+
+function updateThemeIcon(theme) {
+    const icon = themeToggle.querySelector('.icon');
+    icon.innerText = theme === 'dark' ? "☀️" : "🌙";
+}
+
+themeToggle.addEventListener("click", () => {
+    const currentTheme = document.body.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.body.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeIcon(newTheme);
+});
+
+const changeTurn = () => turn === "X" ? "O" : "X";
+
 const winPatterns = [
     [0, 1, 2], [3, 4, 5], [6, 7, 8],
     [0, 3, 6], [1, 4, 7], [2, 5, 8],
@@ -20,46 +43,70 @@ const winPatterns = [
 ];
 
 const checkWin = () => {
-    winPatterns.forEach(pattern => {
+    // Check for Win
+    for (const pattern of winPatterns) {
         const [a, b, c] = pattern;
         if (
-            cells[a].innerText === cells[b].innerText &&
-            cells[a].innerText === cells[c].innerText &&
-            cells[a].innerText !== ""
+            boardState[a] !== "" &&
+            boardState[a] === boardState[b] &&
+            boardState[b] === boardState[c]
         ) {
-            statusText.innerText = `${cells[a].innerText} Won!`;
-            isGameOver = true;
-            winnerImage.style.width = "300px";  // Increased the size of the winner image
+            gameOver(boardState[a]);
+            return; // Stop immediately after finding a winner
         }
-    });
+    }
+
+    // Check for Draw (only if no winner found)
+    if (!boardState.includes("")) {
+        gameOver("Draw");
+    }
 };
 
-// Cell click event
+const gameOver = (winner) => {
+    isGameOver = true;
+    if (winner === "Draw") {
+        winnerText.innerText = "It's a Draw!";
+        winnerImage.style.display = "none";
+    } else {
+        winnerText.innerText = `${winner} Won!`;
+        winnerImage.style.display = "block";
+    }
+    resultModal.classList.remove("hidden");
+};
+
 cells.forEach(cell => {
     cell.addEventListener("click", () => {
-        if (!isGameOver && cell.innerText === '') {
+        const index = cell.getAttribute("data-index");
+        if (!isGameOver && boardState[index] === "") {
+            boardState[index] = turn;
             cell.innerText = turn;
+            cell.setAttribute("data-value", turn);
             audioTurn.play();
+
             checkWin();
+
             if (!isGameOver) {
                 turn = changeTurn();
-                statusText.innerText = `Next Move: ${turn}`;
+                turnIndicator.innerText = turn;
             }
         }
     });
 });
 
-// Restart button event
-restartButton.addEventListener("click", () => {
-    cells.forEach(cell => cell.innerText = "");
+const resetGame = () => {
+    boardState = ["", "", "", "", "", "", "", "", ""];
+    cells.forEach(cell => {
+        cell.innerText = "";
+        cell.removeAttribute("data-value");
+    });
     turn = "X";
     isGameOver = false;
-    statusText.innerText = "Next Move: X";
-    winnerImage.style.width = "0"; // Hide winner image
-});
+    turnIndicator.innerText = "X";
+    resultModal.classList.add("hidden");
+};
 
-// Dark mode toggle
-themeToggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    themeToggle.innerText = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
+restartButton.addEventListener("click", resetGame);
+modalRestart.addEventListener("click", resetGame);
+closeModal.addEventListener("click", () => {
+    resultModal.classList.add("hidden");
 });
