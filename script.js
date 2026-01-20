@@ -17,13 +17,13 @@ const closeModal = document.getElementById("closeModal");
 
 let boardState = ["", "", "", "", "", "", "", "", ""];
 
-const savedTheme = localStorage.getItem('theme') || 'light';
+const savedTheme = localStorage.getItem('theme') || 'dark';
 document.body.setAttribute('data-theme', savedTheme);
 updateThemeIcon(savedTheme);
 
 function updateThemeIcon(theme) {
     const icon = themeToggle.querySelector('.icon');
-    icon.innerText = theme === 'dark' ? "☀️" : "🌙";
+    icon.innerText = theme === 'dark' ? "🌙" : "☀️";
 }
 
 themeToggle.addEventListener("click", () => {
@@ -43,7 +43,6 @@ const winPatterns = [
 ];
 
 const checkWin = () => {
-    // Check for Win
     for (const pattern of winPatterns) {
         const [a, b, c] = pattern;
         if (
@@ -52,11 +51,10 @@ const checkWin = () => {
             boardState[b] === boardState[c]
         ) {
             gameOver(boardState[a]);
-            return; // Stop immediately after finding a winner
+            return;
         }
     }
 
-    // Check for Draw (only if no winner found)
     if (!boardState.includes("")) {
         gameOver("Draw");
     }
